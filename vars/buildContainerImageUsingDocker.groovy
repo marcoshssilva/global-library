@@ -1,4 +1,25 @@
 #!/usr/bin/env groovy
+
+/**
+ Example how to use:
+
+ pipeline {
+    agent any
+    stages {
+        stage('') {
+            steps {
+                git branch: 'main', url: 'https://github.com/example/image.git' 
+                script {
+                    // with params
+                    buildContainerImageUsingDocker('teste', 'latest', '.', ['executableDockerBin': '/usr/local/bin/docker', 'contextPath': './'])
+                    // simple mode
+                    buildContainerImageUsingDocker('teste', 'latest', '.')
+                }
+            }
+        }
+    }
+}
+ */
 def call(String image, String tag, Map<String, String> params = [:]) {
     // param 'executableDockerBin' -> docker binary executable
     String baseCommand = params.any{k -> k.key == 'executableDockerBin'} ? "${params['executableDockerBin']} build -t ${image}:${tag} " : "docker build -t ${image}:${tag} "

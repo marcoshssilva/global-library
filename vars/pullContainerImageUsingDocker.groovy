@@ -2,7 +2,7 @@
 
 def call(String image, String tag, Map<String, String> params = [:]) {
     def executableDockerBin = params.containsKey('executableDockerBin') ? params['executableDockerBin'] : 'docker'
-    def mirror = params.containsKey('mirror') ? params['mirror'] ? 'docker.io/'
+    def mirror = params.containsKey('mirror') ? params['mirror'] : 'docker.io/'
 
     def baseCommandTag  = "${executableDockerBin} tag ${image}:${tag} ${mirror}/${image}:${tag}"
     def baseCommandPull = "${executableDockerBin} pull ${mirror}/${image}:${tag}"

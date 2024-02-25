@@ -16,11 +16,15 @@ def call(String image, String tag, Map<String, String> params = [:]) {
     
 
     if (isUnix()) {
-        sh "${baseCommandTag}"
+        if (mirror != '') {
+            sh "${baseCommandTag}"
+        }
         sh "${baseCommandPull}"
         sh "${baseCommandRmi}"
     } else {
-        bat "${baseCommandTag}"
+        if (mirror != '') {
+            bat "${baseCommandTag}"
+        }
         bat "${baseCommandPull}"
         bat "${baseCommandRmi}"
     }

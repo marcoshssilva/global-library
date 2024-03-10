@@ -7,7 +7,7 @@ def call(Boolean deleteAll, Boolean deleteVolumes, Map<String, String> params = 
     def paramDeleteVolumes = deleteVolumes ? ' --volumes' : ''
     def becomeSudo = params.getOrDefault('becomeSudo', 'false') == 'true' ? 'sudo ' : ''
 
-    def commandToRun = "${becomeSudo}${executableDockerBin} system prune${paramDeleteAll}${paramDeleteVolumes}"
+    def commandToRun = "echo Y | ${becomeSudo}${executableDockerBin} system prune${paramDeleteAll}${paramDeleteVolumes}"
     if (isUnix()) {
         sh "${commandToRun}"
     } else {

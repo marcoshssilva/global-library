@@ -6,7 +6,7 @@ def call(String image, String tag, Map<String, String> params = [:]) {
     def platform = params.containsKey('platform') ? "--platform ${params['platform']}" : ''
     def becomeSudo = params.getOrDefault('becomeSudo', 'false') == 'true' ? 'sudo ' : ''
     def options = params.getOrDefault('options', '')
-    def host = params.containsKey('host') ? '-H ${host}' : ''
+    def host = params.containsKey('host') ? "-H ${params['host']}" : ''
 
     def baseCommand = "${becomeSudo}${executableDockerBin} ${host} build ${options} -t ${image}:${tag} ${platform} ${contextPath}"
 

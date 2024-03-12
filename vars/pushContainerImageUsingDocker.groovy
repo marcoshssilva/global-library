@@ -4,10 +4,11 @@ def call(String image, String tag, Map<String, String> params = [:]) {
     def executableDockerBin = params.containsKey('executableDockerBin') ? params['executableDockerBin'] : 'docker'
     def mirror = params.containsKey('mirror') ? params['mirror'] + '/' : ''
     def becomeSudo = params.getOrDefault('becomeSudo', 'false') == 'true' ? 'sudo ' : ''
+    def host = params.containsKey('host') ? "-H ${params['host']}" : ''
 
-    def baseCommandTag  = "${becomeSudo}${executableDockerBin} tag ${image}:${tag} ${mirror}${image}:${tag}"
-    def baseCommandPull = "${becomeSudo}${executableDockerBin} push ${mirror}${image}:${tag}"
-    def baseCommandRmi  = "${becomeSudo}${executableDockerBin} rmi ${mirror}${image}:${tag}"
+    def baseCommandTag  = "${becomeSudo}${executableDockerBin} ${host} tag ${image}:${tag} ${mirror}${image}:${tag}"
+    def baseCommandPull = "${becomeSudo}${executableDockerBin} ${host} push ${mirror}${image}:${tag}"
+    def baseCommandRmi  = "${becomeSudo}${executableDockerBin} ${host} rmi ${mirror}${image}:${tag}"
 
     if (isUnix()) {
         if (mirror != '') {

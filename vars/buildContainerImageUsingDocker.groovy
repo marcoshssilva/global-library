@@ -5,8 +5,10 @@ def call(String image, String tag, Map<String, String> params = [:]) {
     def contextPath = params.getOrDefault('contextPath', '.')
     def platform = params.containsKey('platform') ? "--platform ${params['platform']}" : ''
     def becomeSudo = params.getOrDefault('becomeSudo', 'false') == 'true' ? 'sudo ' : ''
+    def options = params.getOrDefault('options', '')
+    def host = params.getOrDefault('host', '/var/run/docker.sock')
 
-    def baseCommand = "${becomeSudo}${executableDockerBin} build -t ${image}:${tag} ${platform} ${contextPath}"
+    def baseCommand = "${becomeSudo}${executableDockerBin} -H ${host} build ${options} -t ${image}:${tag} ${platform} ${contextPath}"
 
     if (isUnix()) {
         sh "${baseCommand}"

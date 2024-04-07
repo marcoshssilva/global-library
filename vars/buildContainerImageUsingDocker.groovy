@@ -7,8 +7,11 @@ def call(String image, String tag, Map<String, String> params = [:]) {
     def becomeSudo = params.getOrDefault('becomeSudo', 'false') == 'true' ? 'sudo ' : ''
     def options = params.getOrDefault('options', '')
     def host = params.containsKey('host') ? "-H ${params['host']}" : ''
+    def useTls = params.containsKey('useTls') && params['useTls'] ? ' --tls' : ''
+    def tlsCertificate = params.containsKey('tlsCertificate') ? " --tlskey=${params['tlsCertificate']}" : ''
+    def tlsPrivateKey  = params.containsKey('tlsPrivateKey')  ? " --tlskey=${params['tlsPrivateKey']}"  : ''
 
-    def baseCommand = "${becomeSudo}${executableDockerBin} ${host} build ${options} -t ${image}:${tag} ${platform} ${contextPath}"
+    def baseCommand = "${becomeSudo}${executableDockerBin}${useTls}${tlsCertificate}${tlsPrivateKey} ${host} build ${options} -t ${image}:${tag} ${platform} ${contextPath}"
 
     if (isUnix()) {
         sh "${baseCommand}"
